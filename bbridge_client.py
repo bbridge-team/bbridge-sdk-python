@@ -68,7 +68,7 @@ class BBridgeClient(object):
         """
         :type user: entity.user.User
         :type lang: str
-        :type attr: str[]
+        :type attr: list of str
         :rtype: entity.response.Response
         """
         response = requests.post(self.__personal_profiling_url, params={"lang": lang, "attr": attr},
