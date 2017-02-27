@@ -1,7 +1,6 @@
 import json
 import unittest
 import uuid
-from httplib import ACCEPTED, OK
 
 from httpretty import httpretty
 from sure import expect
@@ -53,9 +52,9 @@ class BBridgeClientTest(unittest.TestCase):
         expected_request_id = uuid.uuid4().hex
         expected_response = _build_response_body(UserProfile(UserAttributes("male", "AGE40_INF")), expected_request_id)
         httpretty.register_uri(httpretty.POST, "{}/profiling/personal".format(self.host_url),
-                               authorization=self.token, body=expected_request_id, status=ACCEPTED)
+                               authorization=self.token, body=expected_request_id, status=202)
         httpretty.register_uri(httpretty.GET, "{}/response".format(self.host_url), content_type=self.content_type,
-                               authorization=self.token, body=expected_response, status=OK)
+                               authorization=self.token, body=expected_response, status=200)
 
         user = User(["cat is so cute!", "Scarlet is very good person"],
                     ["https://pbs.twimg.com/media/C279-WDXEAIg4lD.jpg"])
@@ -70,9 +69,9 @@ class BBridgeClientTest(unittest.TestCase):
         expected_response = _build_response_body(ImageObjects([ImageObject("cat", 0.86, 200, 340, 190, 310)]),
                                                  expected_request_id)
         httpretty.register_uri(httpretty.POST, "{}/image/objects".format(self.host_url),
-                               authorization=self.token, body=expected_request_id, status=ACCEPTED)
+                               authorization=self.token, body=expected_request_id, status=202)
         httpretty.register_uri(httpretty.GET, "{}/response".format(self.host_url), content_type=self.content_type,
-                               authorization=self.token, body=expected_response, status=OK)
+                               authorization=self.token, body=expected_response, status=200)
 
         image = ImageURLThreshold("https://pbs.twimg.com/media/C279-WDXEAIg4lD.jpg", 0.7)
         request_id = self.client.image_objects_detection(image).body
@@ -88,9 +87,9 @@ class BBridgeClientTest(unittest.TestCase):
             ImageConcepts(error="Error while downloading ttps://pbs.twimg.com/media/C279-WDXEAIg4lD.jpg")
         ]), expected_request_id)
         httpretty.register_uri(httpretty.POST, "{}/image/concepts".format(self.host_url),
-                               authorization=self.token, body=expected_request_id, status=ACCEPTED)
+                               authorization=self.token, body=expected_request_id, status=202)
         httpretty.register_uri(httpretty.GET, "{}/response".format(self.host_url), content_type=self.content_type,
-                               authorization=self.token, body=expected_response, status=OK)
+                               authorization=self.token, body=expected_response, status=200)
 
         image = ImageURLCount(
             ["https://pbs.twimg.com/media/C279-WDXEAIg4lD.jpg", "ttps://pbs.twimg.com/media/C279-WDXEAIg4lD.jpg"], 5)
@@ -106,9 +105,9 @@ class BBridgeClientTest(unittest.TestCase):
             POS("cat", "NN"), POS("is", "VBZ"), POS("so", "RB"), POS("cute", "JJ"), POS("!", ".")
         ]]), expected_request_id)
         httpretty.register_uri(httpretty.POST, "{}/nlp/pos".format(self.host_url),
-                               authorization=self.token, body=expected_request_id, status=ACCEPTED)
+                               authorization=self.token, body=expected_request_id, status=202)
         httpretty.register_uri(httpretty.GET, "{}/response".format(self.host_url), content_type=self.content_type,
-                               authorization=self.token, body=expected_response, status=OK)
+                               authorization=self.token, body=expected_response, status=200)
 
         nlp_data = NLPData(["cat is so cute!"])
         request_id = self.client.pos_tagging(nlp_data, EN).body
@@ -121,9 +120,9 @@ class BBridgeClientTest(unittest.TestCase):
         expected_request_id = uuid.uuid4().hex
         expected_response = _build_response_body(Sentiments([0.7]), expected_request_id)
         httpretty.register_uri(httpretty.POST, "{}/nlp/sentiment".format(self.host_url),
-                               authorization=self.token, body=expected_request_id, status=ACCEPTED)
+                               authorization=self.token, body=expected_request_id, status=202)
         httpretty.register_uri(httpretty.GET, "{}/response".format(self.host_url), content_type=self.content_type,
-                               authorization=self.token, body=expected_response, status=OK)
+                               authorization=self.token, body=expected_response, status=200)
 
         nlp_data = NLPData(["cat is so cute!"])
         request_id = self.client.sentiment_analysis(nlp_data, EN).body
@@ -136,9 +135,9 @@ class BBridgeClientTest(unittest.TestCase):
         expected_request_id = uuid.uuid4().hex
         expected_response = _build_response_body(NER([[]]), expected_request_id)
         httpretty.register_uri(httpretty.POST, "{}/nlp/ner".format(self.host_url),
-                               authorization=self.token, body=expected_request_id, status=ACCEPTED)
+                               authorization=self.token, body=expected_request_id, status=202)
         httpretty.register_uri(httpretty.GET, "{}/response".format(self.host_url), content_type=self.content_type,
-                               authorization=self.token, body=expected_response, status=OK)
+                               authorization=self.token, body=expected_response, status=200)
 
         nlp_data = NLPData(["cat is so cute!"])
         request_id = self.client.name_entity_recognition(nlp_data, EN).body

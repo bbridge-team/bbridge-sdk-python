@@ -1,6 +1,4 @@
 import json
-from httplib import OK, ACCEPTED, NO_CONTENT
-
 import requests
 
 from entity.response import APIResponse, Response
@@ -27,7 +25,7 @@ class BBridgeClient(object):
         :type response: requests.Response
         :rtype: entity.response.Response
         """
-        if response.status_code == ACCEPTED:
+        if response.status_code == 202:
             return Response(response.content, response.status_code)
         else:
             return Response(None, response.status_code, response.reason)
@@ -57,10 +55,10 @@ class BBridgeClient(object):
         :rtype: entity.response.Response
         """
         response = requests.get(self.__response_url, params={"id": request_id}, headers=self.__auth_header)
-        if response.status_code == OK:
-            return Response(APIResponse.from_json_str(response.content, inner_type), response.status_code)
-        elif response.status_code == NO_CONTENT:
-            return Response(None, NO_CONTENT)
+        if response.status_code == 200:
+            return Response(APIResponse.from_json_str(response.text, inner_type), response.status_code)
+        elif response.status_code == 204:
+            return Response(None, response.status_code)
         else:
             return Response(None, response.status_code, response.reason)
 

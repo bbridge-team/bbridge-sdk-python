@@ -1,9 +1,8 @@
 import json
-from httplib import OK
 
 
 class Response(object):
-    def __init__(self, body, status_code=OK, err_message=None):
+    def __init__(self, body, status_code=200, err_message=None):
         """
         :type body: str | entity.response.APIResponse | None
         :type status_code: int
