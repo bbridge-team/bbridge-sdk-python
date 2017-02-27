@@ -1,4 +1,4 @@
-# bBridge Python SDK
+# bBridge Python SDK [![Build Status](https://travis-ci.org/bbridge-team/bbridge-sdk-python.svg?branch=master)](https://travis-ci.org/bbridge-team/bbridge-sdk-python)
 bBridge SDK is a Python (2 and 3) library to access the [bBridge API](http://bbridge.cloudapp.net/developer). This library enables you to make requests such as user profiling, image object detection, etc. in your Python application.
 
 ## Example
