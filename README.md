@@ -26,7 +26,6 @@ request_id = client.individual_user_profiling(user, EN, [GENDER, AGE_GROUP]).bod
 response = client.response(request_id, UserProfile)
 
 assert request_id == response.body.request_id
-
 ```
 
 ## Dependencies
