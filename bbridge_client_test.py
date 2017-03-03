@@ -6,20 +6,9 @@ from httpretty import httpretty
 from sure import expect
 
 from bbridge_client import BBridgeClient
-from entity.enum.language import EN
-from entity.enum.user_attribute import GENDER, AGE_GROUP
-from entity.image_concepts import ImagesConcepts, ImageConcepts
-from entity.image_objects import ImageObjects, ImageObject
-from entity.image_url_count import ImageURLCount
-from entity.image_url_threshold import ImageURLThreshold
-from entity.ner import NER
-from entity.nlp_data import NLPData
-from entity.pos_tagging import POSTagging, POS
-from entity.response import APIResponse
-from entity.sentiments import Sentiments
-from entity.serialize.json_encoder import BBridgeJSONEncoder
-from entity.user import User
-from entity.user_profile import UserAttributes, UserProfile
+from entity import *
+from entity.enum import *
+from entity.serialize import BBridgeJSONEncoder
 
 
 def manage_httpretty(fun):

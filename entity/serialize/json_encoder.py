@@ -1,16 +1,16 @@
 from json import JSONEncoder
 
-from entity.image_concepts import ImagesConcepts, ImageConcepts
-from entity.image_objects import ImageObjects, ImageObject
-from entity.image_url_count import ImageURLCount
-from entity.image_url_threshold import ImageURLThreshold
-from entity.ner import NER, Entity
-from entity.nlp_data import NLPData
-from entity.pos_tagging import POSTagging, POS
-from entity.response import APIResponse
-from entity.sentiments import Sentiments
-from entity.user import User
-from entity.user_profile import UserAttributes, UserProfile
+from entity import APIResponse
+from entity import ImageObjects, ImageObject
+from entity import ImageURLCount
+from entity import ImageURLThreshold
+from entity import ImagesConcepts, ImageConcepts
+from entity import NER, Entity
+from entity import NLPData
+from entity import POSTagging, POS
+from entity import Sentiments
+from entity import User
+from entity import UserAttributes, UserProfile
 
 
 class BBridgeJSONEncoder(JSONEncoder):

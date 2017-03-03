@@ -4,10 +4,8 @@ bBridge SDK is a Python (2 and 3) library to access the [bBridge API](http://bbr
 ## Example
 ```python
 from bbridge_client import BBridgeClient
-from entity.enum.language import EN
-from entity.enum.user_attribute import GENDER, AGE_GROUP
-from entity.user import User
-from entity.user_profile import UserProfile
+from entity import User, UserProfile
+from entity.enum import EN, GENDER, AGE_GROUP
 
 # set correct user credentials
 username = "username"
