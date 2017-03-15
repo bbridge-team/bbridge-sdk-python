@@ -5,7 +5,7 @@ from entity.image_url_threshold import ImageURLThreshold
 from entity.ner import NER, Entity
 from entity.nlp_data import NLPData
 from entity.pos_tagging import POSTagging, POS
-from entity.response import APIResponse, Response
+from entity.response import RequestId, Response
 from entity.sentiments import Sentiments
 from entity.user import User
 from entity.user_profile import UserAttributes, UserProfile

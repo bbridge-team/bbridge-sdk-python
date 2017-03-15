@@ -4,7 +4,7 @@ import json
 class Response(object):
     def __init__(self, body, status_code=200, err_message=None):
         """
-        :type body: str | entity.response.APIResponse | None
+        :type body: str | entity.response.Content | None
         :type status_code: int
         :type err_message: str | None
         """
@@ -25,41 +25,29 @@ class Response(object):
         return self.__err_message
 
 
-class APIResponse(object):
-    def __init__(self, request_id, content):
+class RequestId(object):
+    def __init__(self, request_id):
         """
         :type request_id: str
-        :type content: dict | object
         """
         self.__request_id = request_id
-        self.__content = content
 
     @property
     def request_id(self):
         return self.__request_id
 
-    @property
-    def content(self):
-        return self.__content
-
     @staticmethod
-    def from_json(json_object, inner_type=None):
+    def from_json(json_object):
         """
         :type json_object: dict
-        :type inner_type: type
-        :rtype: entity.response.APIResponse
+        :rtype: entity.response.Content
         """
-        content = json_object["content"]
-        if inner_type is not None:
-            type_from_json = getattr(inner_type, "from_json")
-            content = type_from_json(content)
-        return APIResponse(json_object["requestId"], content)
+        return RequestId(json_object["request_id"])
 
     @staticmethod
-    def from_json_str(json_string, inner_type=None):
+    def from_json_str(json_string):
         """
         :type json_string: str
-        :type inner_type: type
-        :rtype: entity.response.APIResponse
+        :rtype: entity.response.Content
         """
-        return APIResponse.from_json(json.loads(json_string), inner_type)
+        return RequestId.from_json(json.loads(json_string))

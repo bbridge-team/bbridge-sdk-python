@@ -1,24 +1,13 @@
 from json import JSONEncoder
 
-from entity import APIResponse
-from entity import ImageObjects, ImageObject
-from entity import ImageURLCount
-from entity import ImageURLThreshold
-from entity import ImagesConcepts, ImageConcepts
-from entity import NER, Entity
-from entity import NLPData
-from entity import POSTagging, POS
-from entity import Sentiments
-from entity import User
-from entity import UserAttributes, UserProfile
+from entity import *
 
 
 class BBridgeJSONEncoder(JSONEncoder):
     def default(self, obj):
-        if isinstance(obj, APIResponse):
+        if isinstance(obj, RequestId):
             return {
-                "requestId": obj.request_id,
-                "content": obj.content
+                "request_id": obj.request_id,
             }
         elif isinstance(obj, User):
             return {
