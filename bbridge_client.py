@@ -26,9 +26,9 @@ class BBridgeClient(object):
         :rtype: entity.response.Response
         """
         if response.status_code == 202:
-            return Response(RequestId.from_json_str(response.text), response.status_code)
+            return Response(response.status_code, RequestId.from_json_str(response.text))
         else:
-            return Response(None, response.status_code, response.reason)
+            return Response(response.status_code, err_message=response.reason)
 
     def __init__(self, token, host_url="http://bbridgeapi.cloudapp.net/v1"):
         """
@@ -59,11 +59,11 @@ class BBridgeClient(object):
             content = json.loads(response.text)
             if return_type is not None:
                 content = return_type.from_json(content)
-            return Response(content, response.status_code)
+            return Response(response.status_code, content)
         elif response.status_code == 204:
-            return Response(None, response.status_code)
+            return Response(response.status_code)
         else:
-            return Response(None, response.status_code, response.reason)
+            return Response(response.status_code, err_message=response.reason)
 
     def individual_user_profiling(self, user, lang, attr):
         """

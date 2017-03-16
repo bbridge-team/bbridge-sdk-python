@@ -9,7 +9,13 @@
 
 * APIResponse class was removed (Response method returns the unwrapped result)
 
-* Rename the following classes:
+* Changed constructor arguments order of Response class:
+  ```python
+  def __init__(self, status_code, body=None, err_message=None):
+    ...
+  ```
+
+* Renamed the following classes:
     * *ImageURLCount* → *ConceptDetectionData*
     * *ImageURLThreshold* → *ObjectDetectionData*
     * *ImageConcepts* → *Concepts*

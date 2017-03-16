@@ -1,12 +1,12 @@
 class Response(object):
-    def __init__(self, body, status_code=200, err_message=None):
+    def __init__(self, status_code, body=None, err_message=None):
         """
-        :type body: entity.bbridge_entity.BBridgeEntity | dict | None
         :type status_code: int
+        :type body: entity.bbridge_entity.BBridgeEntity | dict | None
         :type err_message: str | None
         """
-        self.__body = body
         self.__status_code = status_code
+        self.__body = body
         self.__err_message = err_message
 
     @property
