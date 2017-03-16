@@ -54,12 +54,12 @@ class BBridgeJSONEncoder(JSONEncoder):
             return {
                 "sentences": obj.sentences
             }
-        elif isinstance(obj, ImageURLThreshold):
+        elif isinstance(obj, ObjectDetectionData):
             return {
                 "url": obj.url,
                 "threshold": obj.threshold
             }
-        elif isinstance(obj, ImageURLCount):
+        elif isinstance(obj, ConceptDetectionData):
             return {
                 "image_urls": obj.image_urls,
                 "count": obj.count
@@ -68,7 +68,7 @@ class BBridgeJSONEncoder(JSONEncoder):
             return {
                 "objects": obj.objects
             }
-        elif isinstance(obj, ImageObject):
+        elif isinstance(obj, Object):
             return {
                 "cls_name": obj.cls_name,
                 "score": obj.score,
@@ -81,7 +81,7 @@ class BBridgeJSONEncoder(JSONEncoder):
             return {
                 "results": obj.results
             }
-        elif isinstance(obj, ImageConcepts):
+        elif isinstance(obj, Concepts):
             return {
                 "concepts": obj.concepts,
                 "error": obj.error

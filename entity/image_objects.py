@@ -4,7 +4,7 @@ import json
 class ImageObjects(object):
     def __init__(self, objects):
         """
-        :type objects: list of entity.image_objects.ImageObject
+        :type objects: list of entity.image_objects.Object
         """
         self.__objects = objects
 
@@ -18,7 +18,7 @@ class ImageObjects(object):
         :type json_object: dict
         :rtype: entity.image_objects.ImageObjects
         """
-        objects = [ImageObject.from_json(x) for x in json_object["objects"]]
+        objects = [Object.from_json(x) for x in json_object["objects"]]
         return ImageObjects(objects)
 
     @staticmethod
@@ -30,7 +30,7 @@ class ImageObjects(object):
         return ImageObjects.from_json(json.loads(json_string))
 
 
-class ImageObject(object):
+class Object(object):
     def __init__(self, cls_name, score, x, y, w, h):
         """
         :type cls_name: str
@@ -75,15 +75,15 @@ class ImageObject(object):
     def from_json(json_object):
         """
         :type json_object: dict
-        :rtype: entity.image_objects.ImageObject
+        :rtype: entity.image_objects.Object
         """
-        return ImageObject(json_object["cls_name"], json_object["score"], json_object["x"], json_object["y"],
-                           json_object["w"], json_object["h"])
+        return Object(json_object["cls_name"], json_object["score"], json_object["x"], json_object["y"],
+                      json_object["w"], json_object["h"])
 
     @staticmethod
     def from_json_str(json_string):
         """
         :type json_string: str
-        :rtype: entity.image_objects.ImageObject
+        :rtype: entity.image_objects.Object
         """
-        return ImageObject.from_json(json.loads(json_string))
+        return Object.from_json(json.loads(json_string))

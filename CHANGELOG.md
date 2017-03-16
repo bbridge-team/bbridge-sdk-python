@@ -9,6 +9,12 @@
 
 * APIResponse class was removed (Response method returns the unwrapped result)
 
+* Rename the following classes:
+    * *ImageURLCount* → *ConceptDetectionData*
+    * *ImageURLThreshold* → *ObjectDetectionData*
+    * *ImageConcepts* → *Concepts*
+    * *ImageObject* → *Object*
+
 
 # v0.1 (2017-03-03)
 

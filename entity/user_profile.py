@@ -35,12 +35,12 @@ class UserAttributes(object):
     def __init__(self, gender=None, age_group=None, relationship=None, education_level=None, income=None,
                  occupation=None):
         """
-        :type gender: str
-        :type age_group: str
-        :type relationship: str
-        :type education_level: str
-        :type income: str
-        :type occupation: str
+        :type gender: str | None
+        :type age_group: str | None
+        :type relationship: str | None
+        :type education_level: str | None
+        :type income: str | None
+        :type occupation: str | None
         """
         self.__gender = gender
         self.__age_group = age_group

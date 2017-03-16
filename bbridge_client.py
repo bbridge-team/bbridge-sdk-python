@@ -77,22 +77,22 @@ class BBridgeClient(object):
                                  headers=self.__headers, data=json.dumps(user, cls=BBridgeJSONEncoder))
         return BBridgeClient.__process_response(response)
 
-    def image_objects_detection(self, image_url_threshold):
+    def image_objects_detection(self, object_detection_data):
         """
-        :type image_url_threshold: entity.image_url_threshold.ImageURLThreshold
+        :type object_detection_data: entity.object_detection_data.ObjectDetectionData
         :rtype: entity.response.Response
         """
         response = requests.post(self.__image_objects_url, headers=self.__headers,
-                                 data=json.dumps(image_url_threshold, cls=BBridgeJSONEncoder))
+                                 data=json.dumps(object_detection_data, cls=BBridgeJSONEncoder))
         return BBridgeClient.__process_response(response)
 
-    def image_concepts_detection(self, image_url_count):
+    def image_concepts_detection(self, concept_detection_data):
         """
-        :type image_url_count: entity.image_url_count.ImageURLCount
+        :type concept_detection_data: entity.concept_detection_data.ConceptDetectionData
         :rtype: entity.response.Response
         """
         response = requests.post(self.__image_concepts_url, headers=self.__headers,
-                                 data=json.dumps(image_url_count, cls=BBridgeJSONEncoder))
+                                 data=json.dumps(concept_detection_data, cls=BBridgeJSONEncoder))
         return BBridgeClient.__process_response(response)
 
     def pos_tagging(self, nlp_data, lang):

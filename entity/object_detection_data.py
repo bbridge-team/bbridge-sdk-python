@@ -1,7 +1,7 @@
 import json
 
 
-class ImageURLThreshold(object):
+class ObjectDetectionData(object):
     def __init__(self, url, threshold):
         """
         :type url: str
@@ -22,14 +22,14 @@ class ImageURLThreshold(object):
     def from_json(json_object):
         """
         :type json_object: dict
-        :return: entity.image_url_threshold.ImageURLThreshold
+        :rtype: entity.object_detection_data.ObjectDetectionData
         """
-        return ImageURLThreshold(json_object["url"], json_object["threshold"])
+        return ObjectDetectionData(json_object["url"], json_object["threshold"])
 
     @staticmethod
     def from_json_str(json_string):
         """
         :type json_string: str
-        :return: entity.image_url_threshold.ImageURLThreshold
+        :rtype: entity.object_detection_data.ObjectDetectionData
         """
-        return ImageURLThreshold.from_json(json.loads(json_string))
+        return ObjectDetectionData.from_json(json.loads(json_string))

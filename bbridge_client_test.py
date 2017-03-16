@@ -55,14 +55,14 @@ class BBridgeClientTest(unittest.TestCase):
     @manage_httpretty
     def test_image_objects_detection(self):
         expected_request_id = uuid.uuid4().hex
-        expected_response = _build_response_body(ImageObjects([ImageObject("cat", 0.86, 200, 340, 190, 310)]))
+        expected_response = _build_response_body(ImageObjects([Object("cat", 0.86, 200, 340, 190, 310)]))
         httpretty.register_uri(httpretty.POST, "{}/image/objects".format(self.host_url),
                                authorization=self.token,
                                body=json.dumps(RequestId(expected_request_id), cls=BBridgeJSONEncoder), status=202)
         httpretty.register_uri(httpretty.GET, "{}/response".format(self.host_url), content_type=self.content_type,
                                authorization=self.token, body=expected_response, status=200)
 
-        image = ImageURLThreshold("https://pbs.twimg.com/media/C279-WDXEAIg4lD.jpg", 0.7)
+        image = ObjectDetectionData("https://pbs.twimg.com/media/C279-WDXEAIg4lD.jpg", 0.7)
         request_id = self.client.image_objects_detection(image).body.request_id
         response = self.client.response(request_id, ImageObjects).body
 
@@ -72,8 +72,8 @@ class BBridgeClientTest(unittest.TestCase):
     def test_image_concepts_detection(self):
         expected_request_id = uuid.uuid4().hex
         expected_response = _build_response_body(ImagesConcepts([
-            ImageConcepts({"lollipop": 0.013954441, "miniskirt": 0.07939269}),
-            ImageConcepts(error="Error while downloading ttps://pbs.twimg.com/media/C279-WDXEAIg4lD.jpg")
+            Concepts({"lollipop": 0.013954441, "miniskirt": 0.07939269}),
+            Concepts(error="Error while downloading ttps://pbs.twimg.com/media/C279-WDXEAIg4lD.jpg")
         ]))
         httpretty.register_uri(httpretty.POST, "{}/image/concepts".format(self.host_url),
                                authorization=self.token,
@@ -81,7 +81,7 @@ class BBridgeClientTest(unittest.TestCase):
         httpretty.register_uri(httpretty.GET, "{}/response".format(self.host_url), content_type=self.content_type,
                                authorization=self.token, body=expected_response, status=200)
 
-        image = ImageURLCount(
+        image = ConceptDetectionData(
             ["https://pbs.twimg.com/media/C279-WDXEAIg4lD.jpg", "ttps://pbs.twimg.com/media/C279-WDXEAIg4lD.jpg"], 5)
         request_id = self.client.image_concepts_detection(image).body.request_id
         response = self.client.response(request_id, ImagesConcepts).body

@@ -1,7 +1,7 @@
 import json
 
 
-class ImageURLCount(object):
+class ConceptDetectionData(object):
     def __init__(self, image_urls, count):
         """
         :type image_urls: list of str
@@ -22,14 +22,14 @@ class ImageURLCount(object):
     def from_json(json_object):
         """
         :type json_object: dict
-        :return: entity.image_url_count.ImageURLCount
+        :rtype: entity.concept_detection_data.ConceptDetectionData
         """
-        return ImageURLCount(json_object["image_urls"], json_object["count"])
+        return ConceptDetectionData(json_object["image_urls"], json_object["count"])
 
     @staticmethod
     def from_json_str(json_string):
         """
         :type json_string: str
-        :return: entity.image_url_count.ImageURLCount
+        :rtype: entity.concept_detection_data.ConceptDetectionData
         """
-        return ImageURLCount.from_json(json.loads(json_string))
+        return ConceptDetectionData.from_json(json.loads(json_string))

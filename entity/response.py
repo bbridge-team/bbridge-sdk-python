@@ -4,7 +4,7 @@ import json
 class Response(object):
     def __init__(self, body, status_code=200, err_message=None):
         """
-        :type body: str | entity.response.Content | None
+        :type body: object | None
         :type status_code: int
         :type err_message: str | None
         """
@@ -40,7 +40,7 @@ class RequestId(object):
     def from_json(json_object):
         """
         :type json_object: dict
-        :rtype: entity.response.Content
+        :rtype: entity.response.RequestId
         """
         return RequestId(json_object["request_id"])
 
@@ -48,6 +48,6 @@ class RequestId(object):
     def from_json_str(json_string):
         """
         :type json_string: str
-        :rtype: entity.response.Content
+        :rtype: entity.response.RequestId
         """
         return RequestId.from_json(json.loads(json_string))

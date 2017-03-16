@@ -1,7 +1,7 @@
-from entity.image_concepts import ImagesConcepts, ImageConcepts
-from entity.image_objects import ImageObjects, ImageObject
-from entity.image_url_count import ImageURLCount
-from entity.image_url_threshold import ImageURLThreshold
+from entity.image_concepts import ImagesConcepts, Concepts
+from entity.image_objects import ImageObjects, Object
+from entity.concept_detection_data import ConceptDetectionData
+from entity.object_detection_data import ObjectDetectionData
 from entity.ner import NER, Entity
 from entity.nlp_data import NLPData
 from entity.pos_tagging import POSTagging, POS

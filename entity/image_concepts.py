@@ -4,7 +4,7 @@ import json
 class ImagesConcepts(object):
     def __init__(self, results):
         """
-        :type results: list of entity.image_concepts.ImageConcepts
+        :type results: list of entity.image_concepts.Concepts
         """
         self.__results = results
 
@@ -18,7 +18,7 @@ class ImagesConcepts(object):
         :type json_object: dict
         :rtype: entity.image_concepts.ImagesConcepts
         """
-        results = [ImageConcepts.from_json(x) for x in json_object["results"]]
+        results = [Concepts.from_json(x) for x in json_object["results"]]
         return ImagesConcepts(results)
 
     @staticmethod
@@ -30,7 +30,7 @@ class ImagesConcepts(object):
         return ImagesConcepts.from_json(json.loads(json_string))
 
 
-class ImageConcepts(object):
+class Concepts(object):
     def __init__(self, concepts=None, error=None):
         """
         :type concepts: dict | None
@@ -51,14 +51,14 @@ class ImageConcepts(object):
     def from_json(json_object):
         """
         :type json_object: dict
-        :rtype: entity.image_concepts.ImageConcepts
+        :rtype: entity.image_concepts.Concepts
         """
-        return ImageConcepts(json_object.get("concepts"), json_object.get("error"))
+        return Concepts(json_object.get("concepts"), json_object.get("error"))
 
     @staticmethod
     def from_json_str(json_string):
         """
         :type json_string: str
-        :rtype: entity.image_concepts.ImageConcepts
+        :rtype: entity.image_concepts.Concepts
         """
-        return ImageConcepts.from_json(json.loads(json_string))
+        return Concepts.from_json(json.loads(json_string))
