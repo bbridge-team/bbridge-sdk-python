@@ -1,36 +1,24 @@
-import json
+from entity import BBridgeEntity
 
 
-class ImagesConcepts(object):
+class ImagesConcepts(BBridgeEntity):
     def __init__(self, results):
         """
         :type results: list of entity.image_concepts.Concepts
         """
         self.__results = results
 
+    @classmethod
+    def from_json(cls, json_object):
+        results = [Concepts.from_json(x) for x in json_object["results"]]
+        return ImagesConcepts(results)
+
     @property
     def results(self):
         return self.__results
 
-    @staticmethod
-    def from_json(json_object):
-        """
-        :type json_object: dict
-        :rtype: entity.image_concepts.ImagesConcepts
-        """
-        results = [Concepts.from_json(x) for x in json_object["results"]]
-        return ImagesConcepts(results)
 
-    @staticmethod
-    def from_json_str(json_string):
-        """
-        :type json_string: str
-        :rtype: entity.image_concepts.ImagesConcepts
-        """
-        return ImagesConcepts.from_json(json.loads(json_string))
-
-
-class Concepts(object):
+class Concepts(BBridgeEntity):
     def __init__(self, concepts=None, error=None):
         """
         :type concepts: dict | None
@@ -39,6 +27,10 @@ class Concepts(object):
         self.__concepts = concepts
         self.__error = error
 
+    @classmethod
+    def from_json(cls, json_object):
+        return Concepts(json_object.get("concepts"), json_object.get("error"))
+
     @property
     def concepts(self):
         return self.__concepts
@@ -46,19 +38,3 @@ class Concepts(object):
     @property
     def error(self):
         return self.__error
-
-    @staticmethod
-    def from_json(json_object):
-        """
-        :type json_object: dict
-        :rtype: entity.image_concepts.Concepts
-        """
-        return Concepts(json_object.get("concepts"), json_object.get("error"))
-
-    @staticmethod
-    def from_json_str(json_string):
-        """
-        :type json_string: str
-        :rtype: entity.image_concepts.Concepts
-        """
-        return Concepts.from_json(json.loads(json_string))

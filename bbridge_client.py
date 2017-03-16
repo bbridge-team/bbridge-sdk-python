@@ -51,15 +51,14 @@ class BBridgeClient(object):
     def response(self, request_id, return_type=None):
         """
         :type request_id: str
-        :type return_type: type | None
+        :type return_type: entity.bbridge_entity.BBridgeEntity | None
         :rtype: entity.response.Response
         """
         response = requests.get(self.__response_url, params={"id": request_id}, headers=self.__headers)
         if response.status_code == 200:
             content = json.loads(response.text)
             if return_type is not None:
-                type_from_json = getattr(return_type, "from_json")
-                content = type_from_json(content)
+                content = return_type.from_json(content)
             return Response(content, response.status_code)
         elif response.status_code == 204:
             return Response(None, response.status_code)

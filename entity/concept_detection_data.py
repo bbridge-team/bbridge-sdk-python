@@ -1,7 +1,7 @@
-import json
+from entity import BBridgeEntity
 
 
-class ConceptDetectionData(object):
+class ConceptDetectionData(BBridgeEntity):
     def __init__(self, image_urls, count):
         """
         :type image_urls: list of str
@@ -10,6 +10,10 @@ class ConceptDetectionData(object):
         self.__image_urls = image_urls
         self.__count = count
 
+    @classmethod
+    def from_json(cls, json_object):
+        return cls(json_object["image_urls"], json_object["count"])
+
     @property
     def image_urls(self):
         return self.__image_urls
@@ -17,19 +21,3 @@ class ConceptDetectionData(object):
     @property
     def count(self):
         return self.__count
-
-    @staticmethod
-    def from_json(json_object):
-        """
-        :type json_object: dict
-        :rtype: entity.concept_detection_data.ConceptDetectionData
-        """
-        return ConceptDetectionData(json_object["image_urls"], json_object["count"])
-
-    @staticmethod
-    def from_json_str(json_string):
-        """
-        :type json_string: str
-        :rtype: entity.concept_detection_data.ConceptDetectionData
-        """
-        return ConceptDetectionData.from_json(json.loads(json_string))

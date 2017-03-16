@@ -1,37 +1,24 @@
-import json
+from entity import BBridgeEntity
+from entity.enum import *
 
-from entity.enum.user_attribute import *
 
-
-class UserProfile(object):
+class UserProfile(BBridgeEntity):
     def __init__(self, profiling):
         """
         :type profiling: entity.user_profile.UserAttributes
         """
         self.__profiling = profiling
 
+    @classmethod
+    def from_json(cls, json_object):
+        return UserProfile(UserAttributes.from_json(json_object["profiling"]))
+
     @property
     def profiling(self):
         return self.__profiling
 
-    @staticmethod
-    def from_json(json_object):
-        """
-        :type json_object: dict
-        :rtype: entity.user_profile.UserProfile
-        """
-        return UserProfile(UserAttributes.from_json(json_object["profiling"]))
 
-    @staticmethod
-    def from_json_str(json_string):
-        """
-        :type json_string: str
-        :rtype: entity.user_profile.UserProfile
-        """
-        return UserProfile.from_json(json.loads(json_string))
-
-
-class UserAttributes(object):
+class UserAttributes(BBridgeEntity):
     def __init__(self, gender=None, age_group=None, relationship=None, education_level=None, income=None,
                  occupation=None):
         """
@@ -48,6 +35,15 @@ class UserAttributes(object):
         self.__education_level = education_level
         self.__income = income
         self.__occupation = occupation
+
+    @classmethod
+    def from_json(cls, json_object):
+        return UserAttributes(json_object.get(GENDER),
+                              json_object.get(AGE_GROUP),
+                              json_object.get(RELATIONSHIP),
+                              json_object.get(EDUCATION_LEVEL),
+                              json_object.get(INCOME),
+                              json_object.get(OCCUPATION))
 
     @property
     def gender(self):
@@ -72,24 +68,3 @@ class UserAttributes(object):
     @property
     def occupation(self):
         return self.__occupation
-
-    @staticmethod
-    def from_json(json_object):
-        """
-        :type json_object: dict
-        :rtype: entity.user_profile.UserAttributes
-        """
-        return UserAttributes(json_object.get(GENDER),
-                              json_object.get(AGE_GROUP),
-                              json_object.get(RELATIONSHIP),
-                              json_object.get(EDUCATION_LEVEL),
-                              json_object.get(INCOME),
-                              json_object.get(OCCUPATION))
-
-    @staticmethod
-    def from_json_str(json_string):
-        """
-        :type json_string: str
-        :rtype: entity.user_profile.UserAttributes
-        """
-        return UserAttributes.from_json(json.loads(json_string))

@@ -1,7 +1,7 @@
-import json
+from entity import BBridgeEntity
 
 
-class User(object):
+class User(BBridgeEntity):
     def __init__(self, text=[], image_urls=[]):
         """
         :type text: list of str
@@ -10,6 +10,10 @@ class User(object):
         self.__text = text
         self.__image_urls = image_urls
 
+    @classmethod
+    def from_json(cls, json_object):
+        return User(json_object.get("text"), json_object.get("image_urls"))
+
     @property
     def text(self):
         return self.__text
@@ -17,19 +21,3 @@ class User(object):
     @property
     def image_urls(self):
         return self.__image_urls
-
-    @staticmethod
-    def from_json(json_object):
-        """
-        :type json_object: dict
-        :rtype: entity.user.User
-        """
-        return User(json_object.get("text"), json_object.get("image_urls"))
-
-    @staticmethod
-    def from_json_str(json_string):
-        """
-        :type json_string: str
-        :rtype: entity.user.User
-        """
-        return User.from_json(json.loads(json_string))

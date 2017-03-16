@@ -1,36 +1,24 @@
-import json
+from entity import BBridgeEntity
 
 
-class ImageObjects(object):
+class ImageObjects(BBridgeEntity):
     def __init__(self, objects):
         """
         :type objects: list of entity.image_objects.Object
         """
         self.__objects = objects
 
+    @classmethod
+    def from_json(cls, json_object):
+        objects = [Object.from_json(x) for x in json_object["objects"]]
+        return ImageObjects(objects)
+
     @property
     def objects(self):
         return self.__objects
 
-    @staticmethod
-    def from_json(json_object):
-        """
-        :type json_object: dict
-        :rtype: entity.image_objects.ImageObjects
-        """
-        objects = [Object.from_json(x) for x in json_object["objects"]]
-        return ImageObjects(objects)
 
-    @staticmethod
-    def from_json_str(json_string):
-        """
-        :type json_string: str
-        :rtype: entity.image_objects.ImageObjects
-        """
-        return ImageObjects.from_json(json.loads(json_string))
-
-
-class Object(object):
+class Object(BBridgeEntity):
     def __init__(self, cls_name, score, x, y, w, h):
         """
         :type cls_name: str
@@ -46,6 +34,11 @@ class Object(object):
         self.__y = y
         self.__w = w
         self.__h = h
+
+    @classmethod
+    def from_json(cls, json_object):
+        return Object(json_object["cls_name"], json_object["score"], json_object["x"], json_object["y"],
+                      json_object["w"], json_object["h"])
 
     @property
     def cls_name(self):
@@ -70,20 +63,3 @@ class Object(object):
     @property
     def h(self):
         return self.__h
-
-    @staticmethod
-    def from_json(json_object):
-        """
-        :type json_object: dict
-        :rtype: entity.image_objects.Object
-        """
-        return Object(json_object["cls_name"], json_object["score"], json_object["x"], json_object["y"],
-                      json_object["w"], json_object["h"])
-
-    @staticmethod
-    def from_json_str(json_string):
-        """
-        :type json_string: str
-        :rtype: entity.image_objects.Object
-        """
-        return Object.from_json(json.loads(json_string))
