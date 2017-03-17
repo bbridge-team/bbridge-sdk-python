@@ -6,9 +6,9 @@ from httpretty import httpretty
 from sure import expect
 
 from bbridge_client import BBridgeClient
-from entity import *
 from entity.enum import *
-from entity.serialize import BBridgeJSONEncoder
+from entity.request import *
+from entity.response import *
 
 
 def manage_httpretty(fun):
@@ -23,11 +23,6 @@ def manage_httpretty(fun):
     return wrapper
 
 
-def _build_response_body(data, request_id):
-    response = APIResponse(request_id, data)
-    return json.dumps(response, cls=BBridgeJSONEncoder)
-
-
 class BBridgeClientTest(unittest.TestCase):
     content_type = "application/json"
 
@@ -39,100 +34,121 @@ class BBridgeClientTest(unittest.TestCase):
     @manage_httpretty
     def test_individual_user_profiling(self):
         expected_request_id = uuid.uuid4().hex
-        expected_response = _build_response_body(UserProfile(UserAttributes("male", "AGE40_INF")), expected_request_id)
+        expected_response = json.dumps({"profiling": {"male": "AGE40_INF"}})
         httpretty.register_uri(httpretty.POST, "{}/profiling/personal".format(self.host_url),
-                               authorization=self.token, body=expected_request_id, status=202)
+                               authorization=self.token,
+                               body=json.dumps({"request_id": expected_request_id}), status=202)
         httpretty.register_uri(httpretty.GET, "{}/response".format(self.host_url), content_type=self.content_type,
                                authorization=self.token, body=expected_response, status=200)
 
         user = User(["cat is so cute!", "Scarlet is very good person"],
                     ["https://pbs.twimg.com/media/C279-WDXEAIg4lD.jpg"])
-        request_id = self.client.individual_user_profiling(user, EN, [GENDER, AGE_GROUP]).body
-        response = self.client.response(request_id, UserProfile).body
+        request_id = self.client.individual_user_profiling(user, EN, [GENDER, AGE_GROUP]).body.request_id
+        expect(request_id).to.equal(expected_request_id)
 
-        expect(json.dumps(response, cls=BBridgeJSONEncoder)).to.equal(expected_response)
+        response = self.client.response(request_id, UserProfile).body
+        expect(response).to.an(UserProfile)
+        response = self.client.response(request_id).body
+        expect(response).to.an(dict)
 
     @manage_httpretty
     def test_image_objects_detection(self):
         expected_request_id = uuid.uuid4().hex
-        expected_response = _build_response_body(ImageObjects([ImageObject("cat", 0.86, 200, 340, 190, 310)]),
-                                                 expected_request_id)
+        expected_response = json.dumps(
+            {"objects": [{"cls_name": "cat", "score": 0.86, "x": 200., "y": 340., "w": 190., "h": 310.}]})
         httpretty.register_uri(httpretty.POST, "{}/image/objects".format(self.host_url),
-                               authorization=self.token, body=expected_request_id, status=202)
+                               authorization=self.token,
+                               body=json.dumps({"request_id": expected_request_id}), status=202)
         httpretty.register_uri(httpretty.GET, "{}/response".format(self.host_url), content_type=self.content_type,
                                authorization=self.token, body=expected_response, status=200)
 
-        image = ImageURLThreshold("https://pbs.twimg.com/media/C279-WDXEAIg4lD.jpg", 0.7)
-        request_id = self.client.image_objects_detection(image).body
-        response = self.client.response(request_id, ImageObjects).body
+        image = ObjectDetectionData("https://pbs.twimg.com/media/C279-WDXEAIg4lD.jpg", 0.7)
+        request_id = self.client.image_objects_detection(image).body.request_id
+        expect(request_id).to.equal(expected_request_id)
 
-        expect(json.dumps(response, cls=BBridgeJSONEncoder)).to.equal(expected_response)
+        response = self.client.response(request_id, ImageObjects).body
+        expect(response).to.an(ImageObjects)
+        response = self.client.response(request_id).body
+        expect(response).to.an(dict)
 
     @manage_httpretty
     def test_image_concepts_detection(self):
         expected_request_id = uuid.uuid4().hex
-        expected_response = _build_response_body(ImagesConcepts([
-            ImageConcepts({"lollipop": 0.013954441, "miniskirt": 0.07939269}),
-            ImageConcepts(error="Error while downloading ttps://pbs.twimg.com/media/C279-WDXEAIg4lD.jpg")
-        ]), expected_request_id)
+        expected_response = json.dumps({"results": [{"concepts": {"lollipop": 0.013954441, "miniskirt": 0.07939269}}, {
+            "error": "Error while downloading ttps://pbs.twimg.com/media/C279-WDXEAIg4lD.jpg"}]})
+
         httpretty.register_uri(httpretty.POST, "{}/image/concepts".format(self.host_url),
-                               authorization=self.token, body=expected_request_id, status=202)
+                               authorization=self.token,
+                               body=json.dumps({"request_id": expected_request_id}), status=202)
         httpretty.register_uri(httpretty.GET, "{}/response".format(self.host_url), content_type=self.content_type,
                                authorization=self.token, body=expected_response, status=200)
 
-        image = ImageURLCount(
+        image = ConceptDetectionData(
             ["https://pbs.twimg.com/media/C279-WDXEAIg4lD.jpg", "ttps://pbs.twimg.com/media/C279-WDXEAIg4lD.jpg"], 5)
-        request_id = self.client.image_concepts_detection(image).body
-        response = self.client.response(request_id, ImagesConcepts).body
+        request_id = self.client.image_concepts_detection(image).body.request_id
+        expect(request_id).to.equal(expected_request_id)
 
-        expect(json.dumps(response, cls=BBridgeJSONEncoder)).to.equal(expected_response)
+        response = self.client.response(request_id, ImagesConcepts).body
+        expect(response).to.an(ImagesConcepts)
+        response = self.client.response(request_id).body
+        expect(response).to.an(dict)
 
     @manage_httpretty
     def test_pos_tagging(self):
         expected_request_id = uuid.uuid4().hex
-        expected_response = _build_response_body(POSTagging([[
-            POS("cat", "NN"), POS("is", "VBZ"), POS("so", "RB"), POS("cute", "JJ"), POS("!", ".")
-        ]]), expected_request_id)
+        expected_response = json.dumps({"results": [[{"text": "cat", "type": "NN"}]]})
         httpretty.register_uri(httpretty.POST, "{}/nlp/pos".format(self.host_url),
-                               authorization=self.token, body=expected_request_id, status=202)
+                               authorization=self.token,
+                               body=json.dumps({"request_id": expected_request_id}), status=202)
         httpretty.register_uri(httpretty.GET, "{}/response".format(self.host_url), content_type=self.content_type,
                                authorization=self.token, body=expected_response, status=200)
 
         nlp_data = NLPData(["cat is so cute!"])
-        request_id = self.client.pos_tagging(nlp_data, EN).body
-        response = self.client.response(request_id, POSTagging).body
+        request_id = self.client.pos_tagging(nlp_data, EN).body.request_id
+        expect(request_id).to.equal(expected_request_id)
 
-        expect(json.dumps(response, cls=BBridgeJSONEncoder)).to.equal(expected_response)
+        response = self.client.response(request_id, POSTagging).body
+        expect(response).to.an(POSTagging)
+        response = self.client.response(request_id).body
+        expect(response).to.an(dict)
 
     @manage_httpretty
     def test_sentiment_analysis(self):
         expected_request_id = uuid.uuid4().hex
-        expected_response = _build_response_body(Sentiments([0.7]), expected_request_id)
+        expected_response = json.dumps({"results": [0.7]})
         httpretty.register_uri(httpretty.POST, "{}/nlp/sentiment".format(self.host_url),
-                               authorization=self.token, body=expected_request_id, status=202)
+                               authorization=self.token,
+                               body=json.dumps({"request_id": expected_request_id}), status=202)
         httpretty.register_uri(httpretty.GET, "{}/response".format(self.host_url), content_type=self.content_type,
                                authorization=self.token, body=expected_response, status=200)
 
         nlp_data = NLPData(["cat is so cute!"])
-        request_id = self.client.sentiment_analysis(nlp_data, EN).body
-        response = self.client.response(request_id, Sentiments).body
+        request_id = self.client.sentiment_analysis(nlp_data, EN).body.request_id
+        expect(request_id).to.equal(expected_request_id)
 
-        expect(json.dumps(response, cls=BBridgeJSONEncoder)).to.equal(expected_response)
+        response = self.client.response(request_id, Sentiments).body
+        expect(response).to.an(Sentiments)
+        response = self.client.response(request_id).body
+        expect(response).to.an(dict)
 
     @manage_httpretty
     def test_named_entity_recognition(self):
         expected_request_id = uuid.uuid4().hex
-        expected_response = _build_response_body(NER([[]]), expected_request_id)
+        expected_response = json.dumps({"results": [[]]})
         httpretty.register_uri(httpretty.POST, "{}/nlp/ner".format(self.host_url),
-                               authorization=self.token, body=expected_request_id, status=202)
+                               authorization=self.token,
+                               body=json.dumps({"request_id": expected_request_id}), status=202)
         httpretty.register_uri(httpretty.GET, "{}/response".format(self.host_url), content_type=self.content_type,
                                authorization=self.token, body=expected_response, status=200)
 
         nlp_data = NLPData(["cat is so cute!"])
-        request_id = self.client.name_entity_recognition(nlp_data, EN).body
-        response = self.client.response(request_id, NER).body
+        request_id = self.client.name_entity_recognition(nlp_data, EN).body.request_id
+        expect(request_id).to.equal(expected_request_id)
 
-        expect(json.dumps(response, cls=BBridgeJSONEncoder)).to.equal(expected_response)
+        response = self.client.response(request_id, NER).body
+        expect(response).to.an(NER)
+        response = self.client.response(request_id).body
+        expect(response).to.an(dict)
 
 
 if __name__ == '__main__':

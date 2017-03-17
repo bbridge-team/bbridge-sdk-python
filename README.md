@@ -3,8 +3,11 @@ bBridge SDK is a Python (2 and 3) library to access the [bBridge API](http://bbr
 
 ## Example
 ```python
+from __future__ import print_function
+
 from bbridge_client import BBridgeClient
-from entity import User, UserProfile
+from entity.request import User
+from entity.response import UserProfile
 from entity.enum import EN, GENDER, AGE_GROUP
 
 # set correct user credentials
@@ -17,13 +20,13 @@ client = BBridgeClient.Builder(username, password).build()
 # make user profiling request
 user = User(["cat is so cute!", "Scarlet is very good person"],
             ["https://pbs.twimg.com/media/C279-WDXEAIg4lD.jpg"])
-request_id = client.individual_user_profiling(user, EN, [GENDER, AGE_GROUP]).body
+request_id = client.individual_user_profiling(user, EN, [GENDER, AGE_GROUP]).body.request_id
 
 # get the request's result using 'response' method
 # specify response content type by 2nd argument (e.g. UserProfiling for profile method)
 response = client.response(request_id, UserProfile)
 
-assert request_id == response.body.request_id
+print(response.body.profilin.gender)
 ```
 
 ## Dependencies

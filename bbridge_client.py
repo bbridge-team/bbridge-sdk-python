@@ -1,7 +1,8 @@
 import json
 import requests
 
-from entity import APIResponse, Response
+from entity import Response
+from entity.response import RequestId, BBridgeEntity
 from entity.serialize import BBridgeJSONEncoder
 
 DEFAULT_HOST_URL = "http://bbridgeapi.cloudapp.net/v1"
@@ -26,16 +27,16 @@ class BBridgeClient(object):
         :rtype: entity.response.Response
         """
         if response.status_code == 202:
-            return Response(response.content, response.status_code)
+            return Response(response.status_code, RequestId.from_json_str(response.text))
         else:
-            return Response(None, response.status_code, response.reason)
+            return Response(response.status_code, err_message=response.reason)
 
     def __init__(self, token, host_url="http://bbridgeapi.cloudapp.net/v1"):
         """
         :type token: str
         :type host_url: str
         """
-        self.__auth_header = {"Content-type": "application/json", "Authorization": token}
+        self.__headers = {"Content-type": "application/json", "Authorization": token}
 
         self.__response_url = "{}/response".format(host_url)
 
@@ -48,47 +49,50 @@ class BBridgeClient(object):
         self.__sentiment_analysis_url = "{}/nlp/sentiment".format(host_url)
         self.__name_entity_recognition_url = "{}/nlp/ner".format(host_url)
 
-    def response(self, request_id, inner_type=None):
+    def response(self, request_id, return_type=None):
         """
         :type request_id: str
-        :type inner_type: type | None
+        :type return_type: type | None
         :rtype: entity.response.Response
         """
-        response = requests.get(self.__response_url, params={"id": request_id}, headers=self.__auth_header)
+        response = requests.get(self.__response_url, params={"id": request_id}, headers=self.__headers)
         if response.status_code == 200:
-            return Response(APIResponse.from_json_str(response.text, inner_type), response.status_code)
+            content = json.loads(response.text)
+            if return_type is not None and issubclass(return_type, BBridgeEntity):
+                content = return_type.from_json(content)
+            return Response(response.status_code, content)
         elif response.status_code == 204:
-            return Response(None, response.status_code)
+            return Response(response.status_code)
         else:
-            return Response(None, response.status_code, response.reason)
+            return Response(response.status_code, err_message=response.reason)
 
     def individual_user_profiling(self, user, lang, attr):
         """
         :type user: entity.user.User
         :type lang: str
-        :type attr: list of str
+        :type attr: list[str]
         :rtype: entity.response.Response
         """
         response = requests.post(self.__personal_profiling_url, params={"lang": lang, "attr": attr},
-                                 headers=self.__auth_header, data=json.dumps(user, cls=BBridgeJSONEncoder))
+                                 headers=self.__headers, data=json.dumps(user, cls=BBridgeJSONEncoder))
         return BBridgeClient.__process_response(response)
 
-    def image_objects_detection(self, image_url_threshold):
+    def image_objects_detection(self, object_detection_data):
         """
-        :type image_url_threshold: entity.image_url_threshold.ImageURLThreshold
+        :type object_detection_data: entity.object_detection_data.ObjectDetectionData
         :rtype: entity.response.Response
         """
-        response = requests.post(self.__image_objects_url, headers=self.__auth_header,
-                                 data=json.dumps(image_url_threshold, cls=BBridgeJSONEncoder))
+        response = requests.post(self.__image_objects_url, headers=self.__headers,
+                                 data=json.dumps(object_detection_data, cls=BBridgeJSONEncoder))
         return BBridgeClient.__process_response(response)
 
-    def image_concepts_detection(self, image_url_count):
+    def image_concepts_detection(self, concept_detection_data):
         """
-        :type image_url_count: entity.image_url_count.ImageURLCount
+        :type concept_detection_data: entity.concept_detection_data.ConceptDetectionData
         :rtype: entity.response.Response
         """
-        response = requests.post(self.__image_concepts_url, headers=self.__auth_header,
-                                 data=json.dumps(image_url_count, cls=BBridgeJSONEncoder))
+        response = requests.post(self.__image_concepts_url, headers=self.__headers,
+                                 data=json.dumps(concept_detection_data, cls=BBridgeJSONEncoder))
         return BBridgeClient.__process_response(response)
 
     def pos_tagging(self, nlp_data, lang):
@@ -98,7 +102,7 @@ class BBridgeClient(object):
         :rtype: entity.response.Response
         """
         response = requests.post(self.__pos_tagging_url, params={"lang": lang},
-                                 headers=self.__auth_header, data=json.dumps(nlp_data, cls=BBridgeJSONEncoder))
+                                 headers=self.__headers, data=json.dumps(nlp_data, cls=BBridgeJSONEncoder))
         return BBridgeClient.__process_response(response)
 
     def sentiment_analysis(self, nlp_data, lang):
@@ -108,7 +112,7 @@ class BBridgeClient(object):
         :rtype: entity.response.Response
         """
         response = requests.post(self.__sentiment_analysis_url, params={"lang": lang},
-                                 headers=self.__auth_header, data=json.dumps(nlp_data, cls=BBridgeJSONEncoder))
+                                 headers=self.__headers, data=json.dumps(nlp_data, cls=BBridgeJSONEncoder))
         return BBridgeClient.__process_response(response)
 
     def name_entity_recognition(self, nlp_data, lang):
@@ -118,7 +122,7 @@ class BBridgeClient(object):
         :rtype: entity.response.Response
         """
         response = requests.post(self.__name_entity_recognition_url, params={"lang": lang},
-                                 headers=self.__auth_header, data=json.dumps(nlp_data, cls=BBridgeJSONEncoder))
+                                 headers=self.__headers, data=json.dumps(nlp_data, cls=BBridgeJSONEncoder))
         return BBridgeClient.__process_response(response)
 
     class Builder:
