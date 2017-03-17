@@ -1,7 +1,4 @@
-from entity import BBridgeEntity
-
-
-class ObjectDetectionData(BBridgeEntity):
+class ObjectDetectionData(object):
     def __init__(self, url, threshold):
         """
         :type url: str
@@ -9,10 +6,6 @@ class ObjectDetectionData(BBridgeEntity):
         """
         self.__url = url
         self.__threshold = threshold
-
-    @classmethod
-    def from_json(cls, json_object):
-        return ObjectDetectionData(json_object["url"], json_object["threshold"])
 
     @property
     def url(self):

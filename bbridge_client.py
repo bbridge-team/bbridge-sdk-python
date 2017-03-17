@@ -1,7 +1,8 @@
 import json
 import requests
 
-from entity import RequestId, Response
+from entity import Response
+from entity.response import RequestId, BBridgeEntity
 from entity.serialize import BBridgeJSONEncoder
 
 DEFAULT_HOST_URL = "http://bbridgeapi.cloudapp.net/v1"
@@ -51,13 +52,13 @@ class BBridgeClient(object):
     def response(self, request_id, return_type=None):
         """
         :type request_id: str
-        :type return_type: entity.bbridge_entity.BBridgeEntity | None
+        :type return_type: type | None
         :rtype: entity.response.Response
         """
         response = requests.get(self.__response_url, params={"id": request_id}, headers=self.__headers)
         if response.status_code == 200:
             content = json.loads(response.text)
-            if return_type is not None:
+            if return_type is not None and issubclass(return_type, BBridgeEntity):
                 content = return_type.from_json(content)
             return Response(response.status_code, content)
         elif response.status_code == 204:
@@ -69,7 +70,7 @@ class BBridgeClient(object):
         """
         :type user: entity.user.User
         :type lang: str
-        :type attr: list of str
+        :type attr: list[str]
         :rtype: entity.response.Response
         """
         response = requests.post(self.__personal_profiling_url, params={"lang": lang, "attr": attr},

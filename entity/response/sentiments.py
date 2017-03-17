@@ -1,10 +1,10 @@
-from entity import BBridgeEntity
+from entity.response import BBridgeEntity
 
 
 class Sentiments(BBridgeEntity):
     def __init__(self, results):
         """
-        :type results: list of float
+        :type results: list[float]
         """
         self.__results = results
 

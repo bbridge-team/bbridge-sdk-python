@@ -1,4 +1,4 @@
-from entity import BBridgeEntity
+from entity.response import BBridgeEntity
 
 
 class RequestId(BBridgeEntity):

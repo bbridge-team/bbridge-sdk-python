@@ -21,6 +21,8 @@
     * *ImageConcepts* → *Concepts*
     * *ImageObject* → *Object*
 
+* Split entities into two packages: *response* and *request*
+
 ### Features
 
 * All bBridge entity classes inherit BBridgeEntity class

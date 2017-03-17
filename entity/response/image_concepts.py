@@ -1,10 +1,10 @@
-from entity import BBridgeEntity
+from entity.response import BBridgeEntity
 
 
 class ImagesConcepts(BBridgeEntity):
     def __init__(self, results):
         """
-        :type results: list of entity.image_concepts.Concepts
+        :type results: list[entity.response.image_concepts.Concepts]
         """
         self.__results = results
 

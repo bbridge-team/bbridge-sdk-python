@@ -1,11 +1,11 @@
-from entity import BBridgeEntity
 from entity.enum import *
+from entity.response import BBridgeEntity
 
 
 class UserProfile(BBridgeEntity):
     def __init__(self, profiling):
         """
-        :type profiling: entity.user_profile.UserAttributes
+        :type profiling: entity.response.user_profile.UserAttributes
         """
         self.__profiling = profiling
 

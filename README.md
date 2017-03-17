@@ -6,9 +6,9 @@ bBridge SDK is a Python (2 and 3) library to access the [bBridge API](http://bbr
 from __future__ import print_function
 
 from bbridge_client import BBridgeClient
-from entity import User, UserProfile
+from entity.request import User
+from entity.response import UserProfile
 from entity.enum import EN, GENDER, AGE_GROUP
-from entity.serialize import BBridgeJSONEncoder
 
 # set correct user credentials
 username = "username"
@@ -26,7 +26,7 @@ request_id = client.individual_user_profiling(user, EN, [GENDER, AGE_GROUP]).bod
 # specify response content type by 2nd argument (e.g. UserProfiling for profile method)
 response = client.response(request_id, UserProfile)
 
-print(json.dumps(response.body, cls=BBridgeJSONEncoder))
+print(response.body.profilin.gender)
 ```
 
 ## Dependencies

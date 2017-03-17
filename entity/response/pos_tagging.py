@@ -1,10 +1,10 @@
-from entity import BBridgeEntity
+from entity.response import BBridgeEntity
 
 
 class POSTagging(BBridgeEntity):
     def __init__(self, results):
         """
-        :type results: list of (list of entity.pos_tagging.POS)
+        :type results: list[list[entity.response.pos_tagging.POS]]
         """
         self.__results = results
 
@@ -19,13 +19,13 @@ class POSTagging(BBridgeEntity):
 
 
 class POS(BBridgeEntity):
-    def __init__(self, text, type_):
+    def __init__(self, text, pos_type):
         """
         :type text: str
-        :type type_: str
+        :type pos_type: str
         """
         self.__text = text
-        self.__type = type_
+        self.__type = pos_type
 
     @classmethod
     def from_json(cls, json_object):

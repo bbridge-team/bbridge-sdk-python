@@ -1,10 +1,10 @@
-from entity import BBridgeEntity
+from entity.response import BBridgeEntity
 
 
 class ImageObjects(BBridgeEntity):
     def __init__(self, objects):
         """
-        :type objects: list of entity.image_objects.Object
+        :type objects: list[entity.response.image_objects.Object]
         """
         self.__objects = objects
 
@@ -23,10 +23,10 @@ class Object(BBridgeEntity):
         """
         :type cls_name: str
         :type score: float
-        :type x: int
-        :type y: int
-        :type w: int
-        :type h: int
+        :type x: float
+        :type y: float
+        :type w: float
+        :type h: float
         """
         self.__cls_name = cls_name
         self.__score = score

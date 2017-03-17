@@ -1,10 +1,10 @@
-from entity import BBridgeEntity
+from entity.response import BBridgeEntity
 
 
 class NER(BBridgeEntity):
     def __init__(self, results):
         """
-        :type results: list of (list of entity.ner.Entity)
+        :type results: list[list[entity.response.ner.Entity]]
         """
         self.__results = results
 
@@ -19,15 +19,15 @@ class NER(BBridgeEntity):
 
 
 class Entity(BBridgeEntity):
-    def __init__(self, count, text, type_):
+    def __init__(self, count, text, entity_type):
         """
         :type count: int
         :type text: str
-        :type type_: str
+        :type entity_type: str
         """
         self.__count = count
         self.__text = text
-        self.__type = type_
+        self.__type = entity_type
 
     @classmethod
     def from_json(cls, json_object):
