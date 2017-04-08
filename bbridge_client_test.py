@@ -2,13 +2,13 @@ import json
 import unittest
 import uuid
 
-from bbridge_client import BBridgeClient
 from httpretty import httpretty
 from sure import expect
 
-from entity.enum import *
-from entity.request import *
-from entity.response import *
+from bbridge_sdk.bbridge_client import BBridgeClient
+from bbridge_sdk.entity.enum import *
+from bbridge_sdk.entity.request import *
+from bbridge_sdk.entity.response import *
 
 
 def manage_httpretty(fun):

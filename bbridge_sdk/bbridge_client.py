@@ -1,10 +1,10 @@
 import json
 
 import requests
-from entity import Response
 
-from entity.response import RequestId, BBridgeEntity
-from entity.serialize import BBridgeJSONEncoder
+from .entity import Response
+from .entity.response import RequestId, BBridgeEntity
+from .entity.serialize import BBridgeJSONEncoder
 
 DEFAULT_HOST_URL = "http://bbridgeapi.cloudapp.net/v1"
 
