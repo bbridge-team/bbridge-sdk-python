@@ -1,4 +1,4 @@
-from entity.response import BBridgeEntity
+from .bbridge_entity import BBridgeEntity
 
 
 class NER(BBridgeEntity):

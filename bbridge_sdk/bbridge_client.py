@@ -1,7 +1,8 @@
 import json
-import requests
 
+import requests
 from entity import Response
+
 from entity.response import RequestId, BBridgeEntity
 from entity.serialize import BBridgeJSONEncoder
 

@@ -9,4 +9,4 @@ python:
 install:
   - "pip install -r test-requirements.txt"
 
-script: python ./bbridge_client_test.py
+script: python ./bbridge_sdk/bbridge_client_test.py

@@ -1,5 +1,5 @@
-from entity.enum import *
-from entity.response import BBridgeEntity
+from .bbridge_entity import BBridgeEntity
+from ..enum import *
 
 
 class UserProfile(BBridgeEntity):

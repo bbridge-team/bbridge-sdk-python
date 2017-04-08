@@ -2,10 +2,10 @@ import json
 import unittest
 import uuid
 
+from bbridge_client import BBridgeClient
 from httpretty import httpretty
 from sure import expect
 
-from bbridge_client import BBridgeClient
 from entity.enum import *
 from entity.request import *
 from entity.response import *
