@@ -4,7 +4,7 @@ from .bbridge_entity import BBridgeEntity
 class NER(BBridgeEntity):
     def __init__(self, results):
         """
-        :type results: list[list[entity.response.ner.Entity]]
+        :type results: list[list[bbridge_sdk.entity.response.ner.Entity]]
         """
         self.__results = results
 

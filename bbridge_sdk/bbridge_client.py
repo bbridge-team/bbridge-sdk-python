@@ -25,7 +25,7 @@ class BBridgeClient(object):
     def __process_response(response):
         """
         :type response: requests.Response
-        :rtype: entity.response.Response
+        :rtype: bbridge_sdk.entity.response_wrapper.Response
         """
         if response.status_code == 202:
             return Response(response.status_code, RequestId.from_json_str(response.text))
@@ -54,7 +54,7 @@ class BBridgeClient(object):
         """
         :type request_id: str
         :type return_type: type | None
-        :rtype: entity.response.Response
+        :rtype: bbridge_sdk.entity.response_wrapper.Response
         """
         response = requests.get(self.__response_url, params={"id": request_id}, headers=self.__headers)
         if response.status_code == 200:
@@ -72,7 +72,7 @@ class BBridgeClient(object):
         :type user: entity.user.User
         :type lang: str
         :type attr: list[str]
-        :rtype: entity.response.Response
+        :rtype: bbridge_sdk.entity.response_wrapper.Response
         """
         response = requests.post(self.__personal_profiling_url, params={"lang": lang, "attr": attr},
                                  headers=self.__headers, data=json.dumps(user, cls=BBridgeJSONEncoder))
@@ -81,7 +81,7 @@ class BBridgeClient(object):
     def image_objects_detection(self, object_detection_data):
         """
         :type object_detection_data: entity.object_detection_data.ObjectDetectionData
-        :rtype: entity.response.Response
+        :rtype: bbridge_sdk.entity.response_wrapper.Response
         """
         response = requests.post(self.__image_objects_url, headers=self.__headers,
                                  data=json.dumps(object_detection_data, cls=BBridgeJSONEncoder))
@@ -90,7 +90,7 @@ class BBridgeClient(object):
     def image_concepts_detection(self, concept_detection_data):
         """
         :type concept_detection_data: entity.concept_detection_data.ConceptDetectionData
-        :rtype: entity.response.Response
+        :rtype: bbridge_sdk.entity.response_wrapper.Response
         """
         response = requests.post(self.__image_concepts_url, headers=self.__headers,
                                  data=json.dumps(concept_detection_data, cls=BBridgeJSONEncoder))
@@ -100,7 +100,7 @@ class BBridgeClient(object):
         """
         :type nlp_data: entity.nlp_data.NLPData
         :type lang: str
-        :rtype: entity.response.Response
+        :rtype: bbridge_sdk.entity.response_wrapper.Response
         """
         response = requests.post(self.__pos_tagging_url, params={"lang": lang},
                                  headers=self.__headers, data=json.dumps(nlp_data, cls=BBridgeJSONEncoder))
@@ -110,7 +110,7 @@ class BBridgeClient(object):
         """
         :type nlp_data: entity.nlp_data.NLPData
         :type lang: str
-        :rtype: entity.response.Response
+        :rtype: bbridge_sdk.entity.response_wrapper.Response
         """
         response = requests.post(self.__sentiment_analysis_url, params={"lang": lang},
                                  headers=self.__headers, data=json.dumps(nlp_data, cls=BBridgeJSONEncoder))
@@ -120,7 +120,7 @@ class BBridgeClient(object):
         """
         :type nlp_data: entity.nlp_data.NLPData
         :type lang: str
-        :rtype: entity.response.Response
+        :rtype: bbridge_sdk.entity.response_wrapper.Response
         """
         response = requests.post(self.__name_entity_recognition_url, params={"lang": lang},
                                  headers=self.__headers, data=json.dumps(nlp_data, cls=BBridgeJSONEncoder))

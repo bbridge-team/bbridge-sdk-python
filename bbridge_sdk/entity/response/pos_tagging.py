@@ -4,7 +4,7 @@ from .bbridge_entity import BBridgeEntity
 class POSTagging(BBridgeEntity):
     def __init__(self, results):
         """
-        :type results: list[list[entity.response.pos_tagging.POS]]
+        :type results: list[list[bbridge_sdk.entity.response.pos_tagging.POS]]
         """
         self.__results = results
 
