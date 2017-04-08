@@ -1,10 +1,10 @@
-from entity.response import BBridgeEntity
+from .bbridge_entity import BBridgeEntity
 
 
 class ImageObjects(BBridgeEntity):
     def __init__(self, objects):
         """
-        :type objects: list[entity.response.image_objects.Object]
+        :type objects: list[bbridge_sdk.entity.response.image_objects.Object]
         """
         self.__objects = objects
 

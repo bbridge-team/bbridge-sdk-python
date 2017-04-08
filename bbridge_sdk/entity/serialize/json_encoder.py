@@ -1,6 +1,6 @@
 from json import JSONEncoder
 
-from entity.request import *
+from ..request import *
 
 
 class BBridgeJSONEncoder(JSONEncoder):

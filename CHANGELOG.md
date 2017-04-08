@@ -1,3 +1,13 @@
+# v0.3 (2017-04-08)
+
+### Breaking changes from v0.2
+
+* All packages start with ```bbridge_sdk``` now.
+
+### Features
+
+* SDK upload into PyPI, so use ```pip install bbridge_sdk``` to install it
+
 # v0.2 (2017-03-15)
 
 ### Breaking changes from v0.1
