@@ -27,7 +27,7 @@ class BBridgeClientTest(unittest.TestCase):
     content_type = "application/json"
 
     token = uuid.uuid4().hex
-    host_url = "http://api.bbridge.com/v1"
+    host_url = "http://somin.io:1024/v1"
 
     client = BBridgeClient(token, host_url)
 

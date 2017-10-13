@@ -6,7 +6,7 @@ from .entity import Response
 from .entity.response import RequestId, BBridgeEntity
 from .entity.serialize import BBridgeJSONEncoder
 
-DEFAULT_HOST_URL = "http://bbridgeapi.cloudapp.net/v1"
+DEFAULT_HOST_URL = "http://somin.io:1024/v1"
 
 
 class BBridgeClient(object):
@@ -32,7 +32,7 @@ class BBridgeClient(object):
         else:
             return Response(response.status_code, err_message=response.reason)
 
-    def __init__(self, token, host_url="http://bbridgeapi.cloudapp.net/v1"):
+    def __init__(self, token, host_url="http://somin.io:1024/v1"):
         """
         :type token: str
         :type host_url: str
