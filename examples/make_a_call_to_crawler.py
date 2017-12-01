@@ -6,7 +6,6 @@ from bbridge_sdk import BBridgeClient
 from bbridge_sdk.entity.enum.data_source import TWITTER
 from bbridge_sdk.entity.request.user_id import UserID
 
-from bbridge_sdk.entity.response.data import Data
 from bbridge_sdk.entity.response.data_id import DataId
 
 # set correct user credentials
@@ -29,5 +28,3 @@ request_id = client.crawler_download(DataId(response.body.value)).body.request_i
 time.sleep(1)
 
 response = client.response(request_id)
-
-print(response.body)
