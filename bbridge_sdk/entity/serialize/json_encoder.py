@@ -1,5 +1,7 @@
 from json import JSONEncoder
 
+from bbridge_sdk.entity.request.user_id import UserID
+from bbridge_sdk.entity.response.data_id import DataId
 from ..request import *
 
 
@@ -13,6 +15,15 @@ class BBridgeJSONEncoder(JSONEncoder):
         elif isinstance(obj, NLPData):
             return {
                 "sentences": obj.sentences
+            }
+        elif isinstance(obj, DataId):
+            return {
+                "value": obj.value
+            }
+        elif isinstance(obj, UserID):
+            return {
+                "user_name": obj.user_name,
+                "data_source": obj.data_source,
             }
         elif isinstance(obj, ObjectDetectionData):
             return {
