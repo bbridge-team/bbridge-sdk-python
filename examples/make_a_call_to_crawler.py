@@ -9,8 +9,8 @@ from bbridge_sdk.entity.request.user_id import UserID
 from bbridge_sdk.entity.response.data_id import DataId
 
 # set correct user credentials
-username = "<ELEVATED_USER_NAME>"
-password = "<ELEVATED_PASSWORD>"
+username = ""
+password = ""
 
 # if you have token use: BBridgeClient(token)
 client = BBridgeClient.Builder(username, password).build()
@@ -28,3 +28,5 @@ request_id = client.crawler_download(DataId(response.body.value)).body.request_i
 time.sleep(1)
 
 response = client.response(request_id)
+
+print(response.body)
