@@ -9,8 +9,8 @@ from bbridge_sdk.entity.request.user_id import UserID
 from bbridge_sdk.entity.response.data_id import DataId
 
 # set correct user credentials
-username = ""
-password = ""
+username = "<ELEVATED_USERNAME>"
+password = "<ELEVATED_PASSWORD>"
 
 # if you have token use: BBridgeClient(token)
 client = BBridgeClient.Builder(username, password).build()

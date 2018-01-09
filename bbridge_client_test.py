@@ -8,6 +8,7 @@ from sure import expect
 from bbridge_sdk.bbridge_client import BBridgeClient
 from bbridge_sdk.entity.enum import *
 from bbridge_sdk.entity.request import *
+from bbridge_sdk.entity.request.documnets_data import DocumentsData
 from bbridge_sdk.entity.response import *
 
 
@@ -147,6 +148,26 @@ class BBridgeClientTest(unittest.TestCase):
 
         response = self.client.response(request_id, NER).body
         expect(response).to.an(NER)
+        response = self.client.response(request_id).body
+        expect(response).to.an(dict)
+
+    @manage_httpretty
+    def test_topics(self):
+        expected_request_id = uuid.uuid4().hex
+        expected_response = json.dumps({"results": [[]]})
+        httpretty.register_uri(httpretty.POST, "{}/topics/latent".format(self.host_url),
+                               authorization=self.token,
+                               body=json.dumps({"request_id": expected_request_id}), status=202)
+        httpretty.register_uri(httpretty.GET, "{}/response".format(self.host_url), content_type=self.content_type,
+                               authorization=self.token, body=expected_response, status=200)
+
+        document_data = DocumentsData([["For the precise calculation of your report we may need an estimation of your age and location. \
+        You can share your results with your friends but we will never share your answers or your facebook information."]], 5)
+        request_id = self.client.topic_detection(document_data, EN).body.request_id
+        expect(request_id).to.equal(expected_request_id)
+
+        response = self.client.response(request_id, Topics).body
+        expect(response).to.an(Topics)
         response = self.client.response(request_id).body
         expect(response).to.an(dict)
 

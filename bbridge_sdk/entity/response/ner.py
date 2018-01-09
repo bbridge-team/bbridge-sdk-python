@@ -17,7 +17,6 @@ class NER(BBridgeEntity):
     def results(self):
         return self.__results
 
-
 class Entity(BBridgeEntity):
     def __init__(self, count, text, entity_type):
         """

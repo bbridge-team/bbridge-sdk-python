@@ -3,14 +3,13 @@ from __future__ import print_function
 import time
 
 from bbridge_sdk import BBridgeClient
-
-# set correct user credentials
 from bbridge_sdk.entity.enum import EN
 from bbridge_sdk.entity.enum.domain import INSURANCE, GENERAL
 from bbridge_sdk.entity.request.documnets_data import DocumentsData
 
-username = ""
-password = ""
+# set correct user credentials
+username = "<USERNAME>"
+password = "<PASSWORD>"
 
 # if you have token use: BBridgeClient(token)
 client = BBridgeClient.Builder(username, password).build()

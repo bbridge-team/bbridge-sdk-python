@@ -52,6 +52,9 @@ class BBridgeClient(object):
         self.__sentiment_analysis_url = "{}/nlp/sentiment".format(host_url)
         self.__name_entity_recognition_url = "{}/nlp/ner".format(host_url)
 
+        self.__data_retrieve_url = "{}/data/retrieve".format(host_url)
+        self.__data_download_url = "{}/data/download".format(host_url)
+
         self.__topic_detection_url = "{}/topics/latent".format(host_url)
 
     def response(self, request_id, return_type=None):
@@ -89,6 +92,27 @@ class BBridgeClient(object):
         """
         response = requests.post(self.__image_objects_url, headers=self.__headers,
                                  data=json.dumps(object_detection_data, cls=BBridgeJSONEncoder))
+        return BBridgeClient.__process_response(response)
+
+    def crawler_retrieval(self, user_id, num_to_retrieve, retrieve_till_id):
+        """
+        :type user_id: entity.user_id.UserID
+        :type num_to_retrieve: entity.num_to_retrieve
+        :type retrieve_till_id: entity.retrieve_till_id
+        :rtype: bbridge_sdk.entity.response_wrapper.Response
+        """
+        response = requests.post(self.__data_retrieve_url, headers=self.__headers,
+                                 params={"num-retrieve": num_to_retrieve,
+                                         "retrieve-till": retrieve_till_id},
+                                 data=json.dumps(user_id, cls=BBridgeJSONEncoder))
+        return BBridgeClient.__process_response(response)
+
+    def crawler_download(self, data_id):
+        """
+        :type data_id: entity.data_id.DataId
+        """
+        response = requests.post(self.__data_download_url, headers=self.__headers,
+                                 data=json.dumps(data_id, cls=BBridgeJSONEncoder))
         return BBridgeClient.__process_response(response)
 
     def image_concepts_detection(self, concept_detection_data):
