@@ -1,5 +1,6 @@
 from json import JSONEncoder
 
+from bbridge_sdk.entity.request.documnets_data import DocumentsData
 from ..request import *
 
 
@@ -22,6 +23,11 @@ class BBridgeJSONEncoder(JSONEncoder):
         elif isinstance(obj, ConceptDetectionData):
             return {
                 "image_urls": obj.image_urls,
+                "count": obj.count
+            }
+        elif isinstance(obj, DocumentsData):
+            return {
+                "documents": obj.documents,
                 "count": obj.count
             }
         else:

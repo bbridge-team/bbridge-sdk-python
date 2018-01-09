@@ -21,6 +21,8 @@ class BBridgeClient(object):
     __sentiment_analysis_url = "{}/nlp/sentiment".format(DEFAULT_HOST_URL)
     __name_entity_recognition_url = "{}/nlp/ner".format(DEFAULT_HOST_URL)
 
+    __topic_detection_url = "{}/topics/latent".format(DEFAULT_HOST_URL)
+
     @staticmethod
     def __process_response(response):
         """
@@ -49,6 +51,8 @@ class BBridgeClient(object):
         self.__pos_tagging_url = "{}/nlp/pos".format(host_url)
         self.__sentiment_analysis_url = "{}/nlp/sentiment".format(host_url)
         self.__name_entity_recognition_url = "{}/nlp/ner".format(host_url)
+
+        self.__topic_detection_url = "{}/topics/latent".format(host_url)
 
     def response(self, request_id, return_type=None):
         """
@@ -124,6 +128,17 @@ class BBridgeClient(object):
         """
         response = requests.post(self.__name_entity_recognition_url, params={"lang": lang},
                                  headers=self.__headers, data=json.dumps(nlp_data, cls=BBridgeJSONEncoder))
+        return BBridgeClient.__process_response(response)
+
+    def topic_detection(self, documents_data, lang, domain):
+        """
+        :type documents_data: entity.nlp_data.DocumentsData
+        :type lang: str
+        :type domain: str
+        :rtype: bbridge_sdk.entity.response_wrapper.Response
+        """
+        response = requests.post(self.__topic_detection_url, params={"lang": lang, "domain": domain},
+                                 headers=self.__headers, data=json.dumps(documents_data, cls=BBridgeJSONEncoder))
         return BBridgeClient.__process_response(response)
 
     class Builder:
