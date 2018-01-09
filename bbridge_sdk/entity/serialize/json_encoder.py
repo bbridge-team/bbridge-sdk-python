@@ -27,7 +27,8 @@ class BBridgeJSONEncoder(JSONEncoder):
             }
         elif isinstance(obj, DocumentsData):
             return {
-                "documents": obj.documents
+                "documents": obj.documents,
+                "count": obj.count
             }
         else:
             return super(BBridgeJSONEncoder, self).default(obj)
