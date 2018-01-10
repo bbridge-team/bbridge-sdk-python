@@ -1,6 +1,5 @@
 from .bbridge_entity import BBridgeEntity
 
-
 class Sentiments(BBridgeEntity):
     def __init__(self, results):
         """
