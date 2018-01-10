@@ -7,9 +7,11 @@ from sure import expect
 
 from bbridge_sdk.bbridge_client import BBridgeClient
 from bbridge_sdk.entity.enum import *
+from bbridge_sdk.entity.enum.domain import INSURANCE
 from bbridge_sdk.entity.request import *
 from bbridge_sdk.entity.request.documnets_data import DocumentsData
 from bbridge_sdk.entity.response import *
+from bbridge_sdk.entity.response.latent_topics import LatentTopics, TopicDistribution
 
 
 def manage_httpretty(fun):
@@ -154,7 +156,28 @@ class BBridgeClientTest(unittest.TestCase):
     @manage_httpretty
     def test_topics(self):
         expected_request_id = uuid.uuid4().hex
-        expected_response = json.dumps({"results": [[]]})
+        expected_response = json.dumps({
+          "topics_list": [
+            {
+              "topics": {
+                "Gadgets": 0.07621672553053785,
+                "Religion": 0.11730666259705776,
+                "Business Insurance": 0.43024605909174013,
+                "Greetings": 0.035481042999789277,
+                "Emotions Positive": 0.030850648983692486
+              }
+            },
+            {
+              "topics": {
+                "Emotions Positive": 0.12621672553053784,
+                "Religion": 0.24730666259705775,
+                "Business Insurance": 0.43024605909174013,
+                "Greetings": 0.025481042999789278,
+                "Insurance": 0.4408506489836925
+              }
+            }
+          ]
+        })
         httpretty.register_uri(httpretty.POST, "{}/topics/latent".format(self.host_url),
                                authorization=self.token,
                                body=json.dumps({"request_id": expected_request_id}), status=202)
@@ -163,11 +186,11 @@ class BBridgeClientTest(unittest.TestCase):
 
         document_data = DocumentsData([["For the precise calculation of your report we may need an estimation of your age and location. \
         You can share your results with your friends but we will never share your answers or your facebook information."]], 5)
-        request_id = self.client.topic_detection(document_data, EN).body.request_id
+        request_id = self.client.topic_detection(document_data, EN, INSURANCE).body.request_id
         expect(request_id).to.equal(expected_request_id)
 
-        response = self.client.response(request_id, Topics).body
-        expect(response).to.an(Topics)
+        response = self.client.response(request_id, TopicDistribution).body
+        expect(response).to.an(TopicDistribution)
         response = self.client.response(request_id).body
         expect(response).to.an(dict)
 
