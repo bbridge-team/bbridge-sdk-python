@@ -27,5 +27,5 @@ class TopicDistribution(BBridgeEntity):
         return TopicDistribution(json_object.get("topics"))
 
     @property
-    def TopicDistribution(self):
+    def topics(self):
         return self.__topics

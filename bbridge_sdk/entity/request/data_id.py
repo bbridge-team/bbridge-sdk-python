@@ -1,5 +1,4 @@
-from .bbridge_entity import BBridgeEntity
-
+from bbridge_sdk.entity.response.bbridge_entity import BBridgeEntity
 
 class DataId(BBridgeEntity):
     def __init__(self, value):
