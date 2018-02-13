@@ -2,7 +2,7 @@ from json import JSONEncoder
 
 from bbridge_sdk.entity.request.documnets_data import DocumentsData
 from bbridge_sdk.entity.request.user_id import UserID
-from bbridge_sdk.entity.response.data_id import DataId
+from bbridge_sdk.entity.request.data_id import DataId
 from ..request import *
 
 
