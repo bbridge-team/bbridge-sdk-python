@@ -11,8 +11,8 @@ from active_response_retrieval import active_response_retrieval
 
 NUM_CRAWL = 100
 
-username = "developer"
-password = "12345"
+username = "<USER>"
+password = "<PASSWORD>"
 
 client = BBridgeClient.Builder(username, password).build()
 
