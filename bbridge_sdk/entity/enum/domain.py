@@ -1,2 +1,0 @@
-INSURANCE = "insurance"
-GENERAL = "general"

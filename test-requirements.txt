@@ -1,6 +1,0 @@
--r requirements.txt
-
-httpretty
-sure
-six
-mock==1.0.1
